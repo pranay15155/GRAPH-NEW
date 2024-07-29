@@ -1,0 +1,53 @@
+class Solution {
+public:
+    void print_adj(vector<int>adj[],int n){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<adj[i].size();j++){
+                cout<<adj[i][j]<<" ";
+            }cout<<endl;
+        }
+    }
+     void bfs(int root, vector<int> adj[],vector<int>&vis) {
+        queue<int>q;
+        q.push(root);
+        vis[root]=1;
+        while(q.size()){
+            int s=q.size();
+            for(int i=0;i<s;i++){
+                int node=q.front();
+                q.pop();
+                for(auto &v:adj[node]){
+                    if(vis[v]==0){
+                        vis[v]=1;
+                        q.push(v);
+                    }
+                }
+            }
+        }
+        return ;
+    }
+    int findCircleNum(vector<vector<int>>& nums) {
+        int n=nums.size()+1;
+        vector<int>adj[n];
+        for(int i=0;i<nums.size();i++){
+            for(int j=0;j<nums.size();j++){
+                if(i!=j){
+                    if(nums[i][j]){
+                     adj[i+1].push_back(j+1);
+                     adj[j+1].push_back(i+1);
+                    }
+                }
+            }
+        }
+        int count=0;
+        vector<int>vis(n,0);
+        for(int i=1;i<n;i++){
+            if(vis[i]==0){
+             bfs(i,adj,vis);
+             count++;
+            }
+            
+        }
+        return count;
+    }
+};
