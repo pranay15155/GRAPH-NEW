@@ -1,0 +1,44 @@
+class Solution {
+public:
+    void solve(vector<vector<char>>& grid) {
+        queue<pair<int,int>>q;
+        int n=grid.size(),m=grid[0].size();
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]=='O' && (i==0 || i==n-1 || j==0 || j==m-1)){
+                    vis[i][j]=1;
+                    q.push({i,j});
+                }
+            }
+        }
+        while(q.size()){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                int row=q.front().first;
+                int col=q.front().second;
+                q.pop();
+                int nrow[4]={-1,0,1,0};
+                int ncol[4]={0,1,0,-1};
+                for(int j=0;j<4;j++){
+                    int new_row=row+nrow[j];
+                    int new_col=col+ncol[j];
+                    if(new_row<0 || new_col<0 ||new_row>=n || new_col>=m)continue;
+                    if(grid[new_row][new_col]=='X' || vis[new_row][new_col]==1)continue;
+                    if(grid[new_row][new_col]=='O' && vis[new_row][new_col]==0){
+                         vis[new_row][new_col]=1;
+                         q.push({new_row,new_col});
+                    }
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]=='O' && vis[i][j]==0){
+                   grid[i][j]='X';
+                }
+            }
+        }
+        return ;
+    }
+};
