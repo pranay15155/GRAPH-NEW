@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int dfs(int start,vector<vector<int>>& graph,vector<int>&vis){
+        for(auto &v:graph[start]){
+            if(vis[v]==-1){
+                vis[v]= !vis[start];
+                if(dfs(v,graph,vis)==0)return 0;
+            }
+            else if(vis[v]!=-1 && vis[v]==vis[start])return 0;
+        }
+        return 1;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        vector<int>vis(graph.size(),-1);
+        for(int i=0;i<graph.size();i++){
+            if(vis[i]==-1){
+               vis[i]=0;
+               if(dfs(i,graph,vis)==0)return 0;
+            }
+        }
+        return 1;
+    }
+};
