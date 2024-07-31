@@ -1,3 +1,7 @@
+//this algorithm basically marks every node which is part of any cycle
+
+
+
 class Solution {
 public:
     int dfs(int node,vector<vector<int>>& graph,vector<int>&vis,vector<int>&pathvis,vector<int>&check){
