@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    int dfs(int node, vector<int> adj[], vector<int>&vis, vector<int>&pathvis){
+        vis[node]=1;
+        pathvis[node]=1;
+        for(auto &v:adj[node]){
+            if(vis[v]==0){
+                if(dfs(v,adj,vis,pathvis)==1)return 1;
+            }
+            if(vis[v]==1 && pathvis[v]==1)return 1;
+        }
+        pathvis[node]=0;
+        return 0;
+    }
+    bool isCyclic(int V, vector<int> adj[]) {
+        vector<int>vis(V+1,0),pathvis(V+1,0);
+        for(int i=0;i<V;i++){
+            if(vis[i]==0){
+                if(dfs(i,adj,vis,pathvis)==1)return 1;
+            }
+        }
+        return 0;
+    }
+};
