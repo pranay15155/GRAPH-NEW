@@ -1,0 +1,48 @@
+class Solution{
+    public:
+    vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    queue<int>q;
+	    vector<int>indegree(V,0);
+	    for(int i=0;i<V;i++){
+	        for(auto &v:adj[i]){
+	            indegree[v]++;
+	        }
+	    }
+	    for(int i=0;i<V;i++){
+	        if(indegree[i]==0){
+	            q.push(i);
+	        }
+	    }
+	    vector<int>ans;
+	    while(q.size()){
+	        int node=q.front();
+	        q.pop();
+	        ans.push_back(node);
+	        for(auto &v:adj[node]){
+	            indegree[v]--;
+	            if(indegree[v]==0)q.push(v);
+	        }
+	    }
+	    return ans;
+	}
+    string findOrder(string dict[], int N, int K) {
+        vector<int>adj[K];
+        for(int i=0;i<N-1;i++){
+            string one=dict[i];
+            string two=dict[i+1];
+            for(int j=0;j<min(one.size(),two.size());j++){
+                if(one[j]!=two[j]){
+                    adj[one[j]-'a'].push_back(two[j]-'a');
+                    break;
+                }
+            }
+        }
+        vector<int>ans=topoSort(K,adj);
+        string s;
+        for(int i=0;i<ans.size();i++){
+            s+=char(ans[i]+int('a'));
+        }
+        return s;
+    }
+};
