@@ -1,42 +1,45 @@
+https://leetcode.com/problems/flood-fill/
+
 //BFS
 
 class Solution {
 public:
-    int n,m;
-     void bfs(int srow,int scol,vector<vector<int>>& grid,vector<vector<int>>&vis,int color,int init_color){
+   int n,m;
+    bool check(int row,int col){
+        if(row>=n || row<0 || col>=m || col<0)return 0;
+        return 1;
+    }
+    void bfs(int row,int col,vector<vector<int>>& ans,vector<vector<int>>& image,vector<vector<int>>& vis,int color){
         queue<pair<int,int>>q;
-        vis[srow][scol]=1;
-        q.push({srow,scol});
-        grid[srow][scol]=color;
+        q.push({row,col});
+        vis[row][col]=1;
+        int dr[4]={-1,0,1,0};
+        int dc[4]={0,1,0,-1};
         while(q.size()){
-            int row=q.front().first;
-            int col=q.front().second;
-            q.pop();
-            // int nrow[8]={-1,-1,-1,0,1,1,1,0};
-            // int ncol[8]={-1,0,1,1,1,0,-1,-1};
-            int nrow[4]={-1,0,1,0};
-            int ncol[4]={0,1,0,-1};
-            for(int i=0;i<4;i++){
-                int new_row=row+nrow[i];
-                int new_col=col+ncol[i];
-                if(new_row<0 || new_col<0 || new_row>=n || new_col>=m)continue;
-                else{
-                    if(vis[new_row][new_col]==0 && grid[new_row][new_col]==init_color){
-                        vis[new_row][new_col]=1;
-                        grid[new_row][new_col]=color;
-                        q.push({new_row,new_col});
-                    }
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                auto [r,c]=q.front();
+                ans[r][c]=color;
+                q.pop();
+                for(int j=0;j<4;j++){
+                int nr=r+dr[j];
+                int nc=c+dc[j];
+                if(check(nr,nc) && vis[nr][nc]==0 && image[r][c]==image[nr][nc]){
+                    q.push({nr,nc});
+                    vis[nr][nc]=1;
+                    ans[nr][nc]=color;
+                }
                 }
             }
         }
-        return ;
-
     }
-    vector<vector<int>> floodFill(vector<vector<int>>& grid, int sr, int sc, int color) {
-        n=grid.size(),m=grid[0].size();
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        n=image.size();
+        m=image[0].size();
+        vector<vector<int>>ans=image;
         vector<vector<int>>vis(n,vector<int>(m,0));
-        bfs(sr,sc,grid,vis,color,grid[sr][sc]);
-        return grid;
+        bfs(sr,sc,ans,image,vis,color);
+        return ans;
     }
 };
 
@@ -44,31 +47,34 @@ public:
 
 class Solution {
 public:
-    int n,m;
-     void dfs(int row,int col,vector<vector<int>>& grid,vector<vector<int>>&vis,int color,int init_color){
-        vis[row][col]=1;
-        grid[row][col]=color;
-        int nrow[4]={-1,0,1,0};
-        int ncol[4]={0,1,0,-1};
-            for(int i=0;i<4;i++){
-                int new_row=row+nrow[i];
-                int new_col=col+ncol[i];
-                if(new_row<0 || new_col<0 || new_row>=n || new_col>=m)continue;
-                else{
-                    if(vis[new_row][new_col]==0 && grid[new_row][new_col]==init_color){
-                        vis[new_row][new_col]=1;
-                        grid[new_row][new_col]=color;
-                        dfs(new_row,new_col,grid,vis,color,init_color);
-                    }
-                }
+    int n, m;
+    bool check(int row, int col) {
+        if (row >= n || row < 0 || col >= m || col < 0)
+            return 0;
+        return 1;
+    }
+    void dfs(int row, int col, vector<vector<int>>& ans,vector<vector<int>>& image, vector<vector<int>>& vis, int color) {
+        vis[row][col] = 1;
+        int dr[4] = {-1, 0, 1, 0};
+        int dc[4] = {0, 1, 0, -1};
+        ans[row][col] = color;
+        for (int j = 0; j < 4; j++) {
+            int nr = row + dr[j];
+            int nc = col + dc[j];
+            if (check(nr, nc) && vis[nr][nc] == 0 &&
+                image[row][col] == image[nr][nc]) {
+                vis[nr][nc] = 1;
+                ans[nr][nc] = color;
+                dfs(nr, nc, ans, image, vis, color);
             }
-            return;
-
-     }
-    vector<vector<int>> floodFill(vector<vector<int>>& grid, int sr, int sc, int color) {
-        n=grid.size(),m=grid[0].size();
-        vector<vector<int>>vis(n,vector<int>(m,0));
-        dfs(sr,sc,grid,vis,color,grid[sr][sc]);
-        return grid;
+        }
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc,int color) {
+        n = image.size();
+        m = image[0].size();
+        vector<vector<int>> ans = image;
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+        dfs(sr, sc, ans, image, vis, color);
+        return ans;
     }
 };
