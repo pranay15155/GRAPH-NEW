@@ -1,4 +1,50 @@
-//this algorithm basically marks every node which is part of any cycle
+https://leetcode.com/problems/find-eventual-safe-states/description/
+
+
+class Solution {
+public:
+int n;
+bool dfs(int node,vector<vector<int>>& adj,vector<int>&vis,vector<int>&path_vis,vector<int>&cycle){
+        vis[node]=1;
+        path_vis[node]=1;
+        for(auto &x:adj[node]){
+            if(cycle[x]==1)cycle[node]=1;
+            if(vis[x]==0){
+                if(dfs(x,adj,vis,path_vis,cycle)){
+                    cycle[node]=1;
+                    cycle[x]=1;
+                    return true;
+                }
+            }
+            if(vis[x]==1 && path_vis[x]==1){
+                cycle[x]=1;
+                return true;
+            }
+        }
+        path_vis[node]=0;
+        return 0;
+    }     
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        n=graph.size();
+        vector<int>vis(n,0),path_vis(n,0),cycle(n,0);
+        for(int i=0;i<n;i++){
+            if(vis[i]==0){
+                if(dfs(i,graph,vis,path_vis,cycle)){
+                    cycle[i]=1;
+                }
+            }
+        }
+        vector<int>ans;
+        for(int i=0;i<n;i++){
+            if(cycle[i]==0)ans.push_back(i);
+        }
+        return ans;
+    }
+};
+
+
+
+
 
 
 
