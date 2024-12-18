@@ -1,3 +1,6 @@
+https://www.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1
+
+
 class Solution {
   public:
     int dfs(int node, vector<int> adj[], vector<int>&vis, vector<int>&pathvis){
