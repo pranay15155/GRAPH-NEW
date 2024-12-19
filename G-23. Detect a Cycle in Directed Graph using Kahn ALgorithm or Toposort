@@ -1,5 +1,8 @@
 https://www.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1
 
+Explanantion 
+Here simply we are trying to calculate toposort vector if a loop exist in between then the toposort vector will not be of the same size as n
+Because indegree will not be 0 of some elements and it will not get pushed in queue
 
 class Solution {
   public:
