@@ -4,6 +4,8 @@ https://www.geeksforgeeks.org/problems/topological-sort/1
 //This Algorithm will not give proper topo sort algo for Directed Cyclic Graph hence works
 only for Directed Acyclic Graph
 
+//if used in directed cyclic graph it will give wrong ans
+
 
 class Solution {
   public:
