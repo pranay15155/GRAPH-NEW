@@ -1,5 +1,8 @@
 https://www.geeksforgeeks.org/problems/word-ladder-ii/1
 
+//this code will not work on leetcode 
+//leetcode has an optimised version 
+
 
 class Solution {
 public:
