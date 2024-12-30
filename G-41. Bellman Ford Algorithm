@@ -30,3 +30,13 @@ class Solution {
            return dist;
     }
 };
+
+
+on this testcase a negative cycle do exist 
+8 4
+1 0 -4
+3 5 -4
+4 3 -5
+5 3 -10
+1
+the meaning of this line dist[node]!=1e8 can be understood using this testcase
